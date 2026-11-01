@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>MMT Semester Dashboard - WiSe 2026/27</title>
+<style>
+  :root { --fg:#1a1a1a; --muted:#666; --line:#e3e3e3; --bg:#fafafa; --card:#fff; --acc:#0065bd; --red:#c62828; --amber:#b26a00; --green:#2e7d32; }
+  * { box-sizing:border-box; }
+  body { margin:0; font:14px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; color:var(--fg); background:var(--bg); }
+  header { background:var(--acc); color:#fff; padding:16px 24px; }
+  header h1 { margin:0; font-size:20px; }
+  header p { margin:4px 0 0; opacity:.85; font-size:13px; }
+  nav { position:sticky; top:0; background:#fff; border-bottom:1px solid var(--line); padding:8px 24px; z-index:5; display:flex; gap:16px; flex-wrap:wrap; }
+  nav a { color:var(--acc); text-decoration:none; font-weight:600; font-size:13px; }
+  main { max-width:1200px; margin:0 auto; padding:16px 24px 64px; }
+  section { background:var(--card); border:1px solid var(--line); border-radius:8px; padding:16px 20px; margin:16px 0; }
+  h2 { margin:0 0 12px; font-size:17px; }
+  h3 { margin:18px 0 8px; font-size:15px; }
+  a { color:var(--acc); }
+  table { width:100%; border-collapse:collapse; font-size:13px; }
+  th, td { text-align:left; padding:6px 8px; border-bottom:1px solid var(--line); vertical-align:top; }
+  th { background:#f3f6fa; font-weight:600; position:sticky; top:41px; }
+  .muted { color:var(--muted); }
+  .pill { display:inline-block; padding:1px 8px; border-radius:10px; font-size:12px; font-weight:600; white-space:nowrap; }
+  .p-open { background:#e8f5e9; color:var(--green); }
+  .p-closed { background:#fdecea; color:var(--red); }
+  .p-none { background:#eef2f7; color:#455a64; }
+  .p-sum { background:#fff4e5; color:var(--amber); }
+  .grid { display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px; }
+  .stat { border:1px solid var(--line); border-radius:8px; padding:12px; }
+  .stat .big { font-size:26px; font-weight:700; }
+  .bar { height:8px; background:#eee; border-radius:4px; overflow:hidden; margin-top:6px; }
+  .bar > div { height:100%; background:var(--acc); }
+  .act { padding:8px 10px; border-left:4px solid var(--line); margin:6px 0; background:#fcfcfc; }
+  .act.urgent { border-color:var(--red); background:#fff5f5; }
+  .act.high { border-color:var(--amber); }
+  .act .d { font-weight:700; margin-right:8px; }
+  .links a { margin-right:8px; white-space:nowrap; }
+  .toolbar { display:flex; gap:8px; flex-wrap:wrap; align-items:center; margin-bottom:8px; }
+  input[type=search] { padding:6px 10px; border:1px solid var(--line); border-radius:6px; min-width:240px; }
+  button { padding:6px 12px; border:1px solid var(--acc); background:#fff; color:var(--acc); border-radius:6px; cursor:pointer; font-weight:600; }
+  button.on { background:var(--acc); color:#fff; }
+  .day { font-weight:700; margin-top:10px; padding:4px 0; border-bottom:1px solid var(--line); }
+  .ev { display:flex; gap:10px; padding:3px 0; }
+  .ev .t { width:96px; color:var(--muted); flex:none; }
+  .tag { font-size:11px; font-weight:700; padding:0 6px; border-radius:4px; background:#eef2f7; margin-right:6px; }
+  .tag.exam { background:#fdecea; color:var(--red); }
+  .tag.deadline { background:#fff4e5; color:var(--amber); }
+  details summary { cursor:pointer; font-weight:600; }
+  .small { font-size:12px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>MMT Semester Dashboard - WiSe 2026/27</h1>
+  <p id="sub">Loading…</p>
+</header>
+<nav>
+  <a href="#todo">To do</a><a href="#credits">Credits</a><a href="#mine">My courses</a>
+  <a href="#cal">Calendar</a><a href="#mgmt">Management catalogue</a><a href="#tech">Technology catalogue</a><a href="#links">Links</a>
+</nav>
+<main>
+  <section id="todo"><h2>To do and deadlines</h2><div id="actions"></div></section>
+  <section id="credits"><h2>Credits</h2><div id="creditBox"></div></section>
+  <section id="mine"><h2>My courses this semester</h2><div id="myCourses"></div></section>
+  <section id="cal"><h2>Calendar</h2>
+    <div class="toolbar">
+      <button data-range="14" class="on">Next 14 days</button><button data-range="60">Next 60 days</button><button data-range="all">Whole semester</button>
+      <label class="small"><input type="checkbox" id="hideLect"> hide lectures</label>
+      <button id="ics">Download .ics (all events)</button>
+    </div>
+    <div id="calendar"></div>
+  </section>
+  <section id="mgmt"><h2>Management: Innovation &amp; Entrepreneurship catalogue</h2><div id="catMgmt"></div></section>
+  <section id="tech"><h2>Technology: Computer Engineering + Informatics catalogues</h2><div id="catTech"></div></section>
+  <section id="links"><h2>Links</h2><div id="quick"></div></section>
+  <p class="muted small">Data comes from TUMonline (public course, curriculum and module-handbook data, plus your own registrations and exam windows read from the portal), Moodle and UnternehmerTUM. Not official: always confirm in TUMonline.</p>
+</main>
+<script>
+const TO = "https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#";
+const examUrl = q => `${TO}/slc.xm.exr/exExamRegistration?$ctx=lang=EN&$filter=exExamDateFrom-gte=2026-10-01;q-likeI=${encodeURIComponent(q)}`;
+const courseUrl = id => `${TO}/slc.tm.cp/student/courses/${id}?$ctx=lang=EN`;
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+const fmt = iso => iso ? new Date(iso + (iso.length === 10 ? "T00:00:00" : "")).toLocaleDateString("en-GB", {weekday:"short", day:"2-digit", month:"short", year:"numeric"}) : "";
+const dshort = iso => iso ? iso.slice(8,10) + "." + iso.slice(5,7) + "." + iso.slice(0,4) : "";
+const today = new Date(); today.setHours(0,0,0,0);
+const daysTo = iso => Math.round((new Date(iso + "T00:00:00") - today) / 864e5);
+const lectLinks = ls => (ls || []).filter(l => l.name).map(l =>
+  `<div>${l.card ? `<a href="${esc(l.card)}" target="_blank">${esc(l.name)}</a>` : esc(l.name)}${l.email ? ` · <a href="mailto:${esc(l.email)}">${esc(l.email)}</a>` : ""}</div>`).join("");
+
+Promise.all(["data/plan.json","data/public.json","data/calendar.json"].map(u => fetch(u).then(r => r.json())))
+.then(([plan, mods, cal]) => {
+  const byCode = Object.fromEntries(mods.map(m => [m.code, m]));
+  const lecturersFor = c => {
+    const seen = new Map();
+    for (const l of (cal.lecturers[c.code] || [])) if (l.name) seen.set(l.name, l);
+    const m = byCode[c.code];
+    if (m) for (const o of m.offerings) if ((c.courseIds||[]).includes(o.courseId)) for (const l of o.lecturers) if (l.name) seen.set(l.name, l);
+    return [...seen.values()];
+  };
+  document.getElementById("sub").textContent = `${plan.program} · data as of ${dshort(plan.updated)}`;
+
+  // To do
+  document.getElementById("actions").innerHTML = plan.actions
+    .slice().sort((a,b) => (a.due||"9999").localeCompare(b.due||"9999"))
+    .map(a => `<div class="act ${a.level}"><span class="d">${a.due ? dshort(a.due) + ` (${daysTo(a.due)} days)` : "Anytime"}</span>${esc(a.text)} <a href="${esc(a.url)}" target="_blank">Open →</a></div>`).join("");
+
+  // Credits
+  const active = plan.courses.filter(c => c.status.startsWith("exam planned"));
+  const sum = area => active.filter(c => c.area === area).reduce((s,c) => s + (c.ects || 0), 0);
+  const unknown = active.filter(c => c.ects == null);
+  const sem = sum("mgmt") + sum("tech");
+  const planned = {mgmt: sum("mgmt"), tech: sum("tech"), hec: 30, thesis: 0};
+  const stat = (label, val, req, note) => `<div class="stat"><div class="muted small">${esc(label)}</div>
+    <div class="big">${val} <span class="muted" style="font-size:14px">/ ${req} ECTS</span></div>
+    <div class="bar"><div style="width:${Math.min(100, val/req*100)}%"></div></div>
+    <div class="small muted" style="margin-top:6px">${esc(note)}</div></div>`;
+  document.getElementById("creditBox").innerHTML = `<div class="grid">
+    ${stat("This semester (exams planned)", sem, plan.rules.perSemesterTarget, (unknown.length ? `+ ${unknown.map(c=>c.code).join(", ")} (ECTS unknown). ` : "") + plan.rules.perSemesterTargetNote)}
+    ${plan.rules.areas.map(a => stat(a.label, planned[a.id], a.required,
+      `${a.note}. ` + (a.id === "hec" ? "Transferred." : a.id === "thesis" ? "Not started." : `Left after this semester: ${Math.max(0, a.required - planned[a.id])} ECTS.`))).join("")}
+    ${stat("Whole degree (planned incl. HEC)", planned.mgmt + planned.tech + 30, 120, `Earned so far in TUMonline: 0 / 120. Left after this semester: ${120 - planned.mgmt - planned.tech - 30} ECTS (incl. 30 thesis).`)}
+  </div>`;
+
+  // My courses
+  document.getElementById("myCourses").innerHTML = `<table><thead><tr><th>Module</th><th>ECTS</th><th>Area</th><th>Status</th><th>Exam</th><th>Exam registration</th><th>Deregister by</th><th>Lecturers</th><th>Links</th></tr></thead><tbody>
+  ${plan.courses.map(c => { const e = c.exam; return `<tr${c.status === "dropped" ? ' class="muted"' : ""}>
+    <td><b>${esc(c.code)}</b><br>${esc(c.name)}${c.note ? `<div class="small muted">${esc(c.note)}</div>` : ""}</td>
+    <td>${c.ects ?? "?"}</td><td>${c.area === "mgmt" ? "Management" : "Technology"}${c.mandatory ? " (mandatory)" : ""}</td>
+    <td>${esc(c.status)}</td>
+    <td>${e ? `${dshort(e.date)}<div class="small muted">${esc(e.time)}<br>${esc(e.place)}</div>` : '<span class="muted">-</span>'}${e && e.retake ? `<div class="small">Retake ${dshort(e.retake.date)} (reg ${dshort(e.retake.regFrom)} to ${dshort(e.retake.regTo)})</div>` : ""}</td>
+    <td>${e ? `${dshort(e.regFrom)} to ${dshort(e.regTo)}<br><span class="pill ${e.registered ? "p-open" : "p-closed"}">${e.registered ? "registered" : "not registered"}</span>` : "-"}</td>
+    <td>${e ? dshort(e.deregTo) : "-"}</td>
+    <td class="small">${lectLinks(lecturersFor(c))}</td>
+    <td class="links small">${(c.courseIds||[]).map((id,i) => `<a href="${courseUrl(id)}" target="_blank">TUMonline${c.courseIds.length > 1 ? " " + (i+1) : ""}</a>`).join("")}
+      ${c.status !== "dropped" && c.code !== "Drone lab" ? `<a href="${examUrl(c.code)}" target="_blank">Exam (de)registration</a>` : ""}
+      ${c.moodle ? `<a href="${c.moodle}" target="_blank">Moodle</a>` : ""}
+      ${byCode[c.code] ? `<a href="${byCode[c.code].handbook}" target="_blank">Module handbook</a>` : ""}
+      ${(c.extra||[]).map(x => `<a href="${esc(x.url)}" target="_blank">${esc(x.label)}</a>`).join("")}</td></tr>`; }).join("")}
+  </tbody></table>`;
+
+  // Calendar
+  const names = Object.fromEntries(plan.courses.map(c => [c.code, c.name]));
+  const all = [];
+  for (const l of cal.lectures) {
+    const c = plan.courses.find(x => x.code === l.code);
+    if (!c || !c.status.startsWith("exam planned")) continue;
+    all.push({date: l.start.slice(0,10), time: l.start.slice(11,16) + "-" + (l.end||"").slice(11,16), title: `${names[l.code]}`, where: l.room, kind: "lecture", code: l.code, start: l.start, end: l.end});
+  }
+  for (const c of plan.courses) if (c.exam && c.status.startsWith("exam planned")) {
+    all.push({date: c.exam.date, time: c.exam.time, title: `EXAM: ${c.name}`, where: c.exam.place, kind: "exam", code: c.code});
+    all.push({date: c.exam.regTo, time: "23:59", title: `Exam registration closes: ${c.code}`, kind: "deadline", code: c.code, url: examUrl(c.code)});
+    all.push({date: c.exam.deregTo, time: "23:59", title: `Exam deregistration deadline: ${c.code}`, kind: "deadline", code: c.code, url: examUrl(c.code)});
+    if (c.exam.regFrom >= plan.updated) all.push({date: c.exam.regFrom, time: "00:00", title: `Exam registration opens: ${c.code}`, kind: "deadline", code: c.code, url: examUrl(c.code)});
+  }
+  for (const e of plan.events) all.push({...e, kind: "event"});
+  all.sort((a,b) => (a.date + a.time).localeCompare(b.date + b.time));
+  let range = "14";
+  const drawCal = () => {
+    const hide = document.getElementById("hideLect").checked;
+    const ev = all.filter(e => daysTo(e.date) >= 0 && (range === "all" || daysTo(e.date) <= +range) && !(hide && e.kind === "lecture"));
+    let html = "", last = "";
+    for (const e of ev) {
+      if (e.date !== last) { html += `<div class="day">${fmt(e.date)}</div>`; last = e.date; }
+      html += `<div class="ev"><span class="t">${esc(e.time)}</span><span><span class="tag ${e.kind}">${e.kind}</span>${e.url ? `<a href="${e.url}" target="_blank">${esc(e.title)}</a>` : esc(e.title)}${e.where ? ` <span class="muted small">· ${esc(e.where)}</span>` : ""}</span></div>`;
+    }
+    document.getElementById("calendar").innerHTML = html || '<p class="muted">Nothing in this range.</p>';
+  };
+  document.querySelectorAll("[data-range]").forEach(b => b.onclick = () => {
+    range = b.dataset.range; document.querySelectorAll("[data-range]").forEach(x => x.classList.toggle("on", x === b)); drawCal(); });
+  document.getElementById("hideLect").onchange = drawCal;
+  drawCal();
+  document.getElementById("ics").onclick = () => {
+    const pad = s => s.replace(/[-:]/g, "");
+    const lines = ["BEGIN:VCALENDAR","VERSION:2.0","PRODID:-//mmt-dashboard//EN"];
+    all.forEach((e, i) => {
+      lines.push("BEGIN:VEVENT", `UID:mmt-${i}-${e.date}@dashboard`);
+      if (e.start && e.end) lines.push(`DTSTART;TZID=Europe/Berlin:${pad(e.start)}`, `DTEND;TZID=Europe/Berlin:${pad(e.end)}`);
+      else lines.push(`DTSTART;VALUE=DATE:${pad(e.date)}`);
+      lines.push(`SUMMARY:${(e.kind === "lecture" ? "" : e.kind.toUpperCase() + ": ") + e.title.replace(/[,;]/g, " ")}`);
+      if (e.where) lines.push(`LOCATION:${e.where.replace(/[,;]/g, " ")}`);
+      if (e.url) lines.push(`URL:${e.url}`);
+      lines.push("END:VEVENT");
+    });
+    lines.push("END:VCALENDAR");
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob([lines.join("\r\n")], {type: "text/calendar"}));
+    a.download = "mmt-wise-2026-27.ics"; a.click();
+  };
+
+  // Catalogues
+  const mine = new Set(plan.courses.map(c => c.code));
+  const statusOf = m => {
+    const w = m.offerings.filter(o => o.termId === 207);
+    if (w.some(o => /open for registration/i.test(o.registration))) return "open";
+    if (w.some(o => /no registration/i.test(o.registration || ""))) return "none";
+    if (w.length) return "closed";
+    return "summer";
+  };
+  const groups = [
+    ["open", "Open for registration now (WiSe 2026/27)", "p-open"],
+    ["none", "Offered now, no course registration needed (just register for the exam)", "p-none"],
+    ["closed", "Offered now, but course registration has closed", "p-closed"],
+    ["summer", "Not this semester: last offered SoSe 2026, so expect it again in SoSe 2027", "p-sum"],
+  ];
+  const catTable = (list, id) => {
+    const box = document.getElementById(id);
+    const draw = q => {
+      const f = list.filter(m => !q || (m.code + " " + m.name + " " + m.offerings.map(o => o.lecturers.map(l => l.name).join(" ")).join(" ")).toLowerCase().includes(q));
+      box.querySelector(".body").innerHTML = groups.map(([g, label, cls]) => {
+        const rows = f.filter(m => statusOf(m) === g);
+        if (!rows.length) return "";
+        return `<h3><span class="pill ${cls}">${rows.length}</span> ${label}</h3><table><thead><tr><th>Module</th><th>ECTS</th><th>Catalogue</th><th>Courses (term, type, registration)</th><th>Lecturers</th><th>Links</th></tr></thead><tbody>
+        ${rows.map(m => { const offs = m.offerings.filter(o => g === "summer" ? o.termId === 206 : o.termId === 207);
+          const ls = new Map(); offs.forEach(o => o.lecturers.forEach(l => l.name && ls.set(l.name, l)));
+          return `<tr><td><b>${esc(m.code)}</b>${mine.has(m.code) ? ' <span class="pill p-open">mine</span>' : ""}<br>${esc(m.name)}</td><td>${m.ects ?? "?"}</td>
+          <td class="small muted">${m.paths.map(p => esc(p.split(" > ").slice(-2, -1)[0] || p)).filter((v,i,a)=>a.indexOf(v)===i).join("<br>")}</td>
+          <td class="small">${offs.map(o => `<div><a href="${o.url}" target="_blank">${esc(o.title)}</a> <span class="muted">${esc(o.term)} · ${esc(o.type)} · ${esc(o.registration)}</span></div>`).join("")}</td>
+          <td class="small">${lectLinks([...ls.values()])}</td>
+          <td class="links small"><a href="${m.handbook}" target="_blank">Module handbook</a><a href="${examUrl(m.code)}" target="_blank">Exams</a></td></tr>`; }).join("")}
+        </tbody></table>`;
+      }).join("") || '<p class="muted">No match.</p>';
+    };
+    box.innerHTML = `<div class="toolbar"><input type="search" placeholder="Filter by code, title or lecturer"> <span class="muted small">${list.length} modules</span></div><div class="body"></div>`;
+    box.querySelector("input").oninput = e => draw(e.target.value.trim().toLowerCase());
+    draw("");
+  };
+  catTable(mods.filter(m => m.cats.includes("mgmt_ie")), "catMgmt");
+  catTable(mods.filter(m => m.cats.includes("tech_ce") || m.cats.includes("tech_in")), "catTech");
+
+  // Quick links
+  const ql = [
+    ["TUMonline: My Studies (credits tree)", `${TO}/slc.cm.cs/student/myStudies`],
+    ["TUMonline: My Exams", `${TO}/slc.xm.exr/exExamMyRegistration?$ctx=lang=EN`],
+    ["TUMonline: All exams / exam registration", `${TO}/slc.xm.exr/exExamRegistration?$ctx=lang=EN`],
+    ["TUMonline: My courses WiSe 26/27", `${TO}/slc.tm.cp/student/myCourses?$ctx=lang=EN&objTermId=207`],
+    ["TUMonline: Home (calendar, achievements, transcripts)", `${TO}/home`],
+    ["Moodle: Dashboard", "https://www.moodle.tum.de/my/"],
+    ...plan.otherMoodle.map(x => [x.label, x.url]),
+    ["MMT program page (TUM School of Management)", "https://www.mgt.tum.de/programs/master-in-management-technology"],
+    ["MMT degree program documentation (PDF)", "https://www.mgt.tum.de/fileadmin/mgt.tum.de/downloads/MMT/20250702_StuDoku_MMT_WS25-26_EN.pdf"],
+    ["MMT student counselling: studentcounseling_master@mgt.tum.de", "mailto:studentcounseling_master@mgt.tum.de"],
+    ["SOM grade management: grademanagement@mgt.tum.de", "mailto:grademanagement@mgt.tum.de"],
+    ["Joint international programs (HEC): jip@mgt.tum.de", "mailto:jip@mgt.tum.de"],
+    ["UnternehmerTUM: Opportunity Hunters", "https://academy.unternehmertum.de/programs/opportunity-hunters/"],
+    ["UnternehmerTUM: Startup Launchpad", "https://academy.unternehmertum.de/programs/start-up-launchpad/"],
+  ];
+  document.getElementById("quick").innerHTML = `<div class="grid">${ql.map(([l,u]) => `<a href="${esc(u)}" target="_blank">${esc(l)}</a>`).join("")}</div>`;
+}).catch(e => { document.getElementById("sub").textContent = "Failed to load data: " + e; });
+</script>
+</body>
+</html>
