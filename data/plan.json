@@ -1,70 +1,327 @@
 {
-  "updated": "2026-11-01",
-  "program": "M.Sc. Management and Technology [20251], double degree with HEC Paris",
-  "rules": {
-    "perSemesterTarget": 30,
-    "perSemesterTargetNote": "Your own target: 30 ECTS per semester (management + technology combined). I did not find this rule in TUM's official program document.",
-    "areas": [
-      {"id": "mgmt", "label": "Management: Innovation & Entrepreneurship", "required": 30, "note": "6 ECTS Advanced Seminar I&E (mandatory) + 24 ECTS I&E electives"},
-      {"id": "tech", "label": "Technology: Computer Engineering (major)", "required": 30, "note": "Specialization not yet formally selected in TUMonline"},
-      {"id": "hec", "label": "Double Degree HEC Paris (transferred)", "required": 30, "note": "Credited from HEC; replaces the electives block"},
-      {"id": "thesis", "label": "Master's Thesis", "required": 30, "note": "Later semester"}
-    ]
-  },
-  "actions": [
-    {"due": "2026-11-27", "text": "Register for the Entrepreneurship for a Cause exam (MGT001394). Registration is open now and closes 27.11.2026, 23:59.", "url": "https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/slc.xm.exr/exExamRegistration?$ctx=lang=EN&$filter=exExamDateFrom-gte=2026-11-01;q-likeI=MGT001394", "level": "urgent"},
-    {"due": "2027-01-15", "text": "Register for the Startup Launchpad Pro exam (MGT100180, not MGT000159). Window 15.11.2026 to 15.01.2027.", "url": "https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/slc.xm.exr/exExamRegistration?$ctx=lang=EN&$filter=exExamDateFrom-gte=2026-11-01;q-likeI=MGT100180", "level": "high"},
-    {"due": "2027-01-15", "text": "Register for the Advanced Topics of Software Engineering exam (IN2309). Window 16.11.2026 to 15.01.2027.", "url": "https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/slc.xm.exr/exExamRegistration?$ctx=lang=EN&$filter=exExamDateFrom-gte=2026-11-01;q-likeI=IN2309", "level": "high"},
-    {"due": "2027-01-24", "text": "Register for the Opportunity Hunters Pro exam (MGT001527). Window 15.11.2026 to 24.01.2027.", "url": "https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/slc.xm.exr/exExamRegistration?$ctx=lang=EN&$filter=exExamDateFrom-gte=2026-11-01;q-likeI=MGT001527", "level": "high"},
-    {"due": "2027-02-17", "text": "Robotics is dropped: deregister from the course (possible until 17.02.2027).", "url": "https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/slc.tm.cp/student/myCourses?$ctx=lang=EN&objTermId=207", "level": "normal"},
-    {"due": "2027-03-22", "text": "Register for the Advanced Computer Architecture exam (IN2076). Window 08.03.2027 to 22.03.2027.", "url": "https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/slc.xm.exr/exExamRegistration?$ctx=lang=EN&$filter=exExamDateFrom-gte=2026-11-01;q-likeI=IN2076", "level": "normal"},
-    {"due": null, "text": "In TUMonline My Studies, select 'Computer Engineering (major)' as the technology specialization and 'Double Degree Program HEC Paris'. Both still show 'Select'.", "url": "https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/slc.cm.cs/student/myStudies", "level": "normal"},
-    {"due": null, "text": "Drone lab is not in the MMT curriculum. File the credit claim with the examination board. ECTS still unknown.", "url": "https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/slc.tm.cp/student/courses/950975793?$ctx=lang=EN", "level": "normal"}
-  ],
-  "courses": [
-    {"code": "MGT001394", "name": "Advanced Seminar I&E: Entrepreneurship for a Cause", "area": "mgmt", "ects": 6, "status": "exam planned", "mandatory": true,
-     "courseIds": [950944862], "moodle": "https://www.moodle.tum.de/course/view.php?id=124606",
-     "exam": {"date": "2026-12-17", "time": "09:00-16:00", "place": "Room Z538, Geb. 0505", "regFrom": "2026-10-23", "regTo": "2026-11-27", "deregTo": "2026-11-27", "registered": false}},
-    {"code": "MGT001527", "name": "Opportunity Hunters Pro (UnternehmerTUM)", "area": "mgmt", "ects": 6, "status": "exam planned",
-     "courseIds": [950975741], "moodle": "https://www.moodle.tum.de/course/view.php?id=122738",
-     "extra": [{"label": "UnternehmerTUM page", "url": "https://academy.unternehmertum.de/programs/opportunity-hunters/"}, {"label": "opportunity-hunters@unternehmertum.de", "url": "mailto:opportunity-hunters@unternehmertum.de"}],
-     "exam": {"date": "2027-02-04", "time": "project work, no written exam", "place": "Final event on site", "regFrom": "2026-11-15", "regTo": "2027-01-24", "deregTo": "2027-01-31", "registered": false}},
-    {"code": "MGT100180", "name": "Startup Launchpad Pro (UnternehmerTUM)", "area": "mgmt", "ects": 6, "status": "exam planned",
-     "courseIds": [950975345], "moodle": "https://www.moodle.tum.de/course/view.php?id=122507",
-     "note": "Moodle course is shared with MGT000159. Your exam is the Pro one, MGT100180.",
-     "extra": [{"label": "UnternehmerTUM page", "url": "https://academy.unternehmertum.de/programs/start-up-launchpad/"}, {"label": "startup-launchpad@unternehmertum.de", "url": "mailto:startup-launchpad@unternehmertum.de"}],
-     "exam": {"date": "2027-02-04", "time": "09:00-18:00 (bi-weekly submissions, no written exam)", "place": "TBA", "regFrom": "2026-11-15", "regTo": "2027-01-15", "deregTo": "2027-01-22", "registered": false}},
-    {"code": "IN2076", "name": "Advanced Computer Architecture", "area": "tech", "ects": 6, "status": "exam planned",
-     "courseIds": [950940783], "moodle": "https://www.moodle.tum.de/course/view.php?id=121340",
-     "exam": {"date": "2027-04-07", "time": "14:00-15:30", "place": "Hörsaal 2, Interims I (5620.01.102)", "regFrom": "2027-03-08", "regTo": "2027-03-22", "deregTo": "2027-03-31", "registered": false}},
-    {"code": "IN2309", "name": "Advanced Topics of Software Engineering", "area": "tech", "ects": 8, "status": "exam planned",
-     "courseIds": [950942355, 950945095], "moodle": "https://www.moodle.tum.de/course/view.php?id=121285",
-     "exam": {"date": "2027-02-22", "time": "11:00-12:45", "place": "MI HS 1, Friedrich L. Bauer Hörsaal (5602.EG.001)", "regFrom": "2026-11-16", "regTo": "2027-01-15", "deregTo": "2027-02-15", "registered": false,
-              "retake": {"date": "2027-04-08", "regFrom": "2027-03-08", "regTo": "2027-03-22", "deregTo": "2027-04-01"}}},
-    {"code": "Drone lab", "name": "Design, Construction, and Testing of a Fully Actuated Multirotor Drone (PR)", "area": "tech", "ects": null, "status": "exam planned (external credit claim)",
-     "courseIds": [950975793], "moodle": "https://www.moodle.tum.de/course/view.php?id=124864",
-     "note": "Not in the MMT curriculum, so it needs a credit claim. No exam date is published yet. ECTS unknown.",
-     "exam": null},
-    {"code": "IN2406", "name": "Fundamentals of Artificial Intelligence", "area": "tech", "ects": 6, "status": "registered, no exam planned",
-     "courseIds": [950944516], "moodle": "https://www.moodle.tum.de/course/view.php?id=121132", "exam": null},
-    {"code": "IN2067", "name": "Robotics", "area": "tech", "ects": 6, "status": "dropped",
-     "courseIds": [], "moodle": "https://www.moodle.tum.de/course/view.php?id=121098", "exam": null}
-  ],
-  "otherMoodle": [
-    {"label": "MMT Muc 20251: All You Need to Know About Your Master's Journey", "url": "https://www.moodle.tum.de/course/view.php?id=117616"},
-    {"label": "Student Assembly - Management (SOM)", "url": "https://www.moodle.tum.de/course/view.php?id=126301"},
-    {"label": "Moodle calendar", "url": "https://www.moodle.tum.de/calendar/view.php?view=month"}
-  ],
-  "events": [
-    {"date": "2026-11-05", "time": "17:30-19:00", "title": "Opportunity Hunters: Problem Space 1 (Philipp Engelhardt)", "code": "MGT001527"},
-    {"date": "2026-11-12", "time": "17:30-19:00", "title": "Opportunity Hunters: Problem Space 2 (Hubert Altschäffl, MAN)", "code": "MGT001527"},
-    {"date": "2026-11-19", "time": "17:30-19:00", "title": "Opportunity Hunters: Problem Space 3 (Felix Pörnbacher, DeepDrive)", "code": "MGT001527"},
-    {"date": "2026-11-26", "time": "17:30-19:00", "title": "Opportunity Hunters: Problem Space 4 (Jean-Pascal Lutze, NoMaze)", "code": "MGT001527"},
-    {"date": "2026-12-03", "time": "17:30-19:00", "title": "Opportunity Hunters: Problem Space 5 (Stephan Herrmann, Reverion)", "code": "MGT001527"},
-    {"date": "2026-12-10", "time": "17:30-19:00", "title": "Opportunity Hunters: Problem Space 6 (Gloria Seibert)", "code": "MGT001527"},
-    {"date": "2026-12-17", "time": "17:30-19:00", "title": "Opportunity Hunters: Problem Space 7 (Flora Geske, summ.ai)", "code": "MGT001527"},
-    {"date": "2027-01-07", "time": "", "title": "Opportunity Hunters: fieldwork, submissions & peer review (until 28.01.)", "code": "MGT001527"},
-    {"date": "2027-02-03", "time": "", "title": "Startup Launchpad: Final Event (hybrid)", "code": "MGT100180"},
-    {"date": "2027-02-04", "time": "17:30-19:00", "title": "Opportunity Hunters: Final Event (on site)", "code": "MGT001527"}
+ "updated": "2026-11-01",
+ "program": "M.Sc. Management and Technology [20251], double degree with HEC Paris",
+ "rules": {
+  "perSemesterTarget": 30,
+  "perSemesterTargetNote": "Your own target: 30 ECTS per semester (management + technology combined). I did not find this rule in TUM's official program document.",
+  "areas": [
+   {
+    "id": "mgmt",
+    "label": "Management: Innovation & Entrepreneurship",
+    "required": 30,
+    "note": "6 ECTS Advanced Seminar I&E (mandatory) + 24 ECTS I&E electives"
+   },
+   {
+    "id": "tech",
+    "label": "Technology: Computer Engineering (major)",
+    "required": 30,
+    "note": "Specialization not yet formally selected in TUMonline"
+   },
+   {
+    "id": "hec",
+    "label": "Double Degree HEC Paris (transferred)",
+    "required": 30,
+    "note": "Credited from HEC; replaces the electives block"
+   },
+   {
+    "id": "thesis",
+    "label": "Master's Thesis",
+    "required": 30,
+    "note": "Later semester"
+   }
   ]
+ },
+ "actions": [
+  {
+   "due": "2026-11-27",
+   "text": "Register for the Entrepreneurship for a Cause exam (MGT001394). Registration is open now and closes 27.11.2026, 23:59.",
+   "url": "https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/slc.xm.exr/exExamRegistration?$ctx=lang=EN&$filter=exExamDateFrom-gte=2026-11-01;q-likeI=MGT001394",
+   "level": "urgent"
+  },
+  {
+   "due": "2027-01-15",
+   "text": "Register for the Startup Launchpad Pro exam (MGT100180, not MGT000159). Window 15.11.2026 to 15.01.2027.",
+   "url": "https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/slc.xm.exr/exExamRegistration?$ctx=lang=EN&$filter=exExamDateFrom-gte=2026-11-01;q-likeI=MGT100180",
+   "level": "high"
+  },
+  {
+   "due": "2027-01-15",
+   "text": "Register for the Advanced Topics of Software Engineering exam (IN2309). Window 16.11.2026 to 15.01.2027.",
+   "url": "https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/slc.xm.exr/exExamRegistration?$ctx=lang=EN&$filter=exExamDateFrom-gte=2026-11-01;q-likeI=IN2309",
+   "level": "high"
+  },
+  {
+   "due": "2027-01-24",
+   "text": "Register for the Opportunity Hunters Pro exam (MGT001527). Window 15.11.2026 to 24.01.2027.",
+   "url": "https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/slc.xm.exr/exExamRegistration?$ctx=lang=EN&$filter=exExamDateFrom-gte=2026-11-01;q-likeI=MGT001527",
+   "level": "high"
+  },
+  {
+   "due": "2027-02-17",
+   "text": "Deregister from the Robotics (IN2067) and Fundamentals of AI (IN2406) courses. You're not taking either; deregistration is possible until 17.02.2027.",
+   "url": "https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/slc.tm.cp/student/myCourses?$ctx=lang=EN&objTermId=207",
+   "level": "low"
+  },
+  {
+   "due": "2027-03-22",
+   "text": "Register for the Advanced Computer Architecture exam (IN2076). Window 08.03.2027 to 22.03.2027.",
+   "url": "https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/slc.xm.exr/exExamRegistration?$ctx=lang=EN&$filter=exExamDateFrom-gte=2026-11-01;q-likeI=IN2076",
+   "level": "medium"
+  },
+  {
+   "due": null,
+   "text": "In TUMonline My Studies, select 'Computer Engineering (major)' as the technology specialization and 'Double Degree Program HEC Paris'. Both still show 'Select'.",
+   "url": "https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/slc.cm.cs/student/myStudies",
+   "level": "medium"
+  },
+  {
+   "due": null,
+   "text": "Drone lab is not in the MMT curriculum. File the credit claim with the examination board. ECTS still unknown.",
+   "url": "https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/slc.tm.cp/student/courses/950975793?$ctx=lang=EN",
+   "level": "low"
+  }
+ ],
+ "courses": [
+  {
+   "code": "MGT001394",
+   "name": "Advanced Seminar I&E: Entrepreneurship for a Cause",
+   "area": "mgmt",
+   "ects": 6,
+   "status": "exam planned",
+   "mandatory": true,
+   "courseIds": [
+    950944862
+   ],
+   "moodle": "https://www.moodle.tum.de/course/view.php?id=124606",
+   "exam": {
+    "date": "2026-12-17",
+    "time": "09:00-16:00",
+    "place": "Room Z538, Geb. 0505",
+    "regFrom": "2026-10-23",
+    "regTo": "2026-11-27",
+    "deregTo": "2026-11-27",
+    "registered": false
+   }
+  },
+  {
+   "code": "MGT001527",
+   "name": "Opportunity Hunters Pro (UnternehmerTUM)",
+   "area": "mgmt",
+   "ects": 6,
+   "status": "exam planned",
+   "courseIds": [
+    950975741
+   ],
+   "moodle": "https://www.moodle.tum.de/course/view.php?id=122738",
+   "extra": [
+    {
+     "label": "UnternehmerTUM page",
+     "url": "https://academy.unternehmertum.de/programs/opportunity-hunters/"
+    },
+    {
+     "label": "opportunity-hunters@unternehmertum.de",
+     "url": "mailto:opportunity-hunters@unternehmertum.de"
+    }
+   ],
+   "exam": {
+    "date": "2027-02-04",
+    "time": "project work, no written exam",
+    "place": "Final event on site",
+    "regFrom": "2026-11-15",
+    "regTo": "2027-01-24",
+    "deregTo": "2027-01-31",
+    "registered": false
+   }
+  },
+  {
+   "code": "MGT100180",
+   "name": "Startup Launchpad Pro (UnternehmerTUM)",
+   "area": "mgmt",
+   "ects": 6,
+   "status": "exam planned",
+   "courseIds": [
+    950975345
+   ],
+   "moodle": "https://www.moodle.tum.de/course/view.php?id=122507",
+   "note": "Moodle course is shared with MGT000159. Your exam is the Pro one, MGT100180.",
+   "extra": [
+    {
+     "label": "UnternehmerTUM page",
+     "url": "https://academy.unternehmertum.de/programs/start-up-launchpad/"
+    },
+    {
+     "label": "startup-launchpad@unternehmertum.de",
+     "url": "mailto:startup-launchpad@unternehmertum.de"
+    }
+   ],
+   "exam": {
+    "date": "2027-02-04",
+    "time": "09:00-18:00 (bi-weekly submissions, no written exam)",
+    "place": "TBA",
+    "regFrom": "2026-11-15",
+    "regTo": "2027-01-15",
+    "deregTo": "2027-01-22",
+    "registered": false
+   }
+  },
+  {
+   "code": "IN2076",
+   "name": "Advanced Computer Architecture",
+   "area": "tech",
+   "ects": 6,
+   "status": "exam planned",
+   "courseIds": [
+    950940783
+   ],
+   "moodle": "https://www.moodle.tum.de/course/view.php?id=121340",
+   "exam": {
+    "date": "2027-04-07",
+    "time": "14:00-15:30",
+    "place": "Hörsaal 2, Interims I (5620.01.102)",
+    "regFrom": "2027-03-08",
+    "regTo": "2027-03-22",
+    "deregTo": "2027-03-31",
+    "registered": false
+   }
+  },
+  {
+   "code": "IN2309",
+   "name": "Advanced Topics of Software Engineering",
+   "area": "tech",
+   "ects": 8,
+   "status": "exam planned",
+   "courseIds": [
+    950942355,
+    950945095
+   ],
+   "moodle": "https://www.moodle.tum.de/course/view.php?id=121285",
+   "exam": {
+    "date": "2027-02-22",
+    "time": "11:00-12:45",
+    "place": "MI HS 1, Friedrich L. Bauer Hörsaal (5602.EG.001)",
+    "regFrom": "2026-11-16",
+    "regTo": "2027-01-15",
+    "deregTo": "2027-02-15",
+    "registered": false,
+    "retake": {
+     "date": "2027-04-08",
+     "regFrom": "2027-03-08",
+     "regTo": "2027-03-22",
+     "deregTo": "2027-04-01"
+    }
+   }
+  },
+  {
+   "code": "Drone lab",
+   "name": "Design, Construction, and Testing of a Fully Actuated Multirotor Drone (PR)",
+   "area": "tech",
+   "ects": null,
+   "status": "exam planned (external credit claim)",
+   "courseIds": [
+    950975793
+   ],
+   "moodle": "https://www.moodle.tum.de/course/view.php?id=124864",
+   "note": "Not in the MMT curriculum, so it needs a credit claim. No exam date is published yet. ECTS unknown.",
+   "exam": null
+  },
+  {
+   "code": "IN2406",
+   "name": "Fundamentals of Artificial Intelligence",
+   "area": "tech",
+   "ects": 6,
+   "status": "dropped",
+   "courseIds": [
+    950944516
+   ],
+   "moodle": "https://www.moodle.tum.de/course/view.php?id=121132",
+   "exam": null,
+   "note": "Not taking it. Course registration still active: deregister by 17.02.2027."
+  },
+  {
+   "code": "IN2067",
+   "name": "Robotics",
+   "area": "tech",
+   "ects": 6,
+   "status": "dropped",
+   "courseIds": [],
+   "moodle": "https://www.moodle.tum.de/course/view.php?id=121098",
+   "exam": null
+  }
+ ],
+ "otherMoodle": [
+  {
+   "label": "MMT Muc 20251: All You Need to Know About Your Master's Journey",
+   "url": "https://www.moodle.tum.de/course/view.php?id=117616"
+  },
+  {
+   "label": "Student Assembly - Management (SOM)",
+   "url": "https://www.moodle.tum.de/course/view.php?id=126301"
+  },
+  {
+   "label": "Moodle calendar",
+   "url": "https://www.moodle.tum.de/calendar/view.php?view=month"
+  }
+ ],
+ "events": [
+  {
+   "date": "2026-11-05",
+   "time": "17:30-19:00",
+   "title": "Opportunity Hunters: Problem Space 1 (Philipp Engelhardt)",
+   "code": "MGT001527"
+  },
+  {
+   "date": "2026-11-12",
+   "time": "17:30-19:00",
+   "title": "Opportunity Hunters: Problem Space 2 (Hubert Altschäffl, MAN)",
+   "code": "MGT001527"
+  },
+  {
+   "date": "2026-11-19",
+   "time": "17:30-19:00",
+   "title": "Opportunity Hunters: Problem Space 3 (Felix Pörnbacher, DeepDrive)",
+   "code": "MGT001527"
+  },
+  {
+   "date": "2026-11-26",
+   "time": "17:30-19:00",
+   "title": "Opportunity Hunters: Problem Space 4 (Jean-Pascal Lutze, NoMaze)",
+   "code": "MGT001527"
+  },
+  {
+   "date": "2026-12-03",
+   "time": "17:30-19:00",
+   "title": "Opportunity Hunters: Problem Space 5 (Stephan Herrmann, Reverion)",
+   "code": "MGT001527"
+  },
+  {
+   "date": "2026-12-10",
+   "time": "17:30-19:00",
+   "title": "Opportunity Hunters: Problem Space 6 (Gloria Seibert)",
+   "code": "MGT001527"
+  },
+  {
+   "date": "2026-12-17",
+   "time": "17:30-19:00",
+   "title": "Opportunity Hunters: Problem Space 7 (Flora Geske, summ.ai)",
+   "code": "MGT001527"
+  },
+  {
+   "date": "2027-01-07",
+   "time": "",
+   "title": "Opportunity Hunters: fieldwork, submissions & peer review (until 28.01.)",
+   "code": "MGT001527"
+  },
+  {
+   "date": "2027-02-03",
+   "time": "",
+   "title": "Startup Launchpad: Final Event (hybrid)",
+   "code": "MGT100180"
+  },
+  {
+   "date": "2027-02-04",
+   "time": "17:30-19:00",
+   "title": "Opportunity Hunters: Final Event (on site)",
+   "code": "MGT001527"
+  }
+ ]
 }
