@@ -83,7 +83,7 @@ function viewCourses() {
   return `<div class="page-head"><div><h1>My courses</h1><p>Registered courses grouped by what still has to happen</p></div></div>
   <div class="toolbar">${chip("all", "All")}${chip("mgmt", "Management")}${chip("tech", "Technology")}</div>
   ${Object.entries(CGROUPS).map(([k, [t]]) => { const list = cs.filter(c => courseGroup(c) === k); return list.length ?
-    `<div class="group-h">${t} <span class="mono">${list.length} · ${k === "dropped" ? "not counted" : list.reduce((s, c) => s + (c.ects || 0), 0) + " ECTS"}</span></div>${list.map(courseCard).join("")}` : ""; }).join("")}`;
+    `<div class="group-h">${t} <span class="mono">${list.length} · ${k === "dropped" ? "not counted" : list.reduce((s, c) => s + (c.ects || 0), 0) + " ECTS" + (list.some(c => c.ects == null) ? " + unknown" : "")}</span></div>${list.map(courseCard).join("")}` : ""; }).join("")}`;
 }
 function bindCourses(root) { root.querySelectorAll("[data-ca]").forEach(b => b.onclick = () => { st.f.courses.area = b.dataset.ca; render(); }); }
 
