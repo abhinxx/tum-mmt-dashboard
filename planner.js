@@ -80,7 +80,7 @@ function viewPlanner() {
   const label = b === "now" ? "Winter semester 2026/27" : "Summer semester 2027";
   const f = st.f.planner ||= { area: "all", av: b === "now" ? "now" : "summer", q: "", ects: "all" };
   const inPlan = new Set([...semesterItems("now"), ...semesterItems("next")].map(i => i.code));
-  const pick = S.mods.filter(m => !inPlan.has(m.code))
+  const pick = S.mods.filter(m => !inPlan.has(m.code) && !S.plan.courses.some(c => c.code === m.code))
     .filter(m => f.area === "all" || areaOfMod(m) === f.area)
     .filter(m => f.av === "all" || (f.av === "now" ? ["open", "noreg"].includes(avail(m)) : avail(m) === f.av))
     .filter(m => f.ects === "all" || (f.ects === "le5" ? m.ects <= 5 : f.ects === "6" ? m.ects === 6 : m.ects >= 8))
