@@ -90,11 +90,11 @@ function viewPlanner() {
   return `<div class="page-head"><div><h1>Semester planner</h1><p>Add electives until each semester reaches ${TARGET()} ECTS. Saved in this browser.</p></div>
     <div class="toolbar" style="margin:0"><button class="chip ${b === "now" ? "on" : ""}" data-bucket="now">WiSe 26/27</button><button class="chip ${b === "next" ? "on" : ""}" data-bucket="next">SoSe 27</button></div></div>
   <div class="planner">
-    <div class="sticky"><div class="card"><h2>${label}</h2>
+    <div><div class="card sticky" style="z-index:2"><h2>${label}</h2>
       <div class="bignum-row"><span class="bignum">${L.tot}</span><span class="fg2">of ${TARGET()} ECTS</span></div>
-      <div class="${L.left ? "" : ""}" style="margin-bottom:12px;color:${L.left ? "var(--neg)" : "var(--pos)"}">${esc(L.text)}${L.unknown.length ? ` · ${L.unknown.join(", ")} not counted (ECTS unknown)` : ""}</div>
-      ${semBar(items)}
-      <div style="margin-top:16px">${items.length ? items.map(i => `<div class="plan-item">
+      <div style="margin-bottom:12px;color:${L.left ? "var(--neg)" : "var(--pos)"}">${esc(L.text)}${L.unknown.length ? ` · ${L.unknown.join(", ")} not counted (ECTS unknown)` : ""}</div>
+      ${semBar(items)}</div>
+      <div class="card"><h2>Courses in this semester <span class="muted">· ${items.length}</span></h2><div>${items.length ? items.map(i => `<div class="plan-item">
         <span class="dot" style="background:var(--${i.area})"></span>
         <span class="nm">${esc(i.name)}<br><span class="mono">${esc(i.code)} · ${AREA[i.area]}${i.base ? " · taking" : " · planned"}${i.avail ? " · " + AVAIL[i.avail][0].toLowerCase() : ""}</span></span>
         <span class="num fg2">${i.ects ?? "?"}</span>
