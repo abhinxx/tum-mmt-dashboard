@@ -162,6 +162,13 @@ def main():
         for m, ects in zip(modules.values(), ex.map(module_ects, [m["node"] for m in modules.values()])):
             m["ects"] = ects
             m["handbook"] = MHB.format(m["node"])
+    # shortcut: TUMonline lists Blockchain-based Systems Engineering with designation "(2)"; fix from the
+    # My Studies tree (IN2359, 6 ECTS). Add more overrides here if other malformed codes appear.
+    for bad, (code, ects) in {"(2)": ("IN2359", 6.0)}.items():
+        if bad in modules:
+            m = modules.pop(bad)
+            m["code"], m["ects"] = code, m["ects"] or ects
+            modules[code] = m
 
     keys = {k for m in modules.values() for o in m["offerings"] for k in o["lecturerKeys"]}
     with ThreadPoolExecutor(12) as ex:

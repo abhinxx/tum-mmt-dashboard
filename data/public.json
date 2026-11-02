@@ -1,46 +1,5 @@
 [
  {
-  "code": "(2)",
-  "name": "Blockchain-based Systems Engineering",
-  "cats": [
-   "tech_ce",
-   "tech_in"
-  ],
-  "paths": [
-   "Electives in Management and/or Technology > Catalogue of Elective Modules: Computer Engineering (advanced) > Blockchain-based Systems Engineering",
-   "Electives in Management and/or Technology > Catalogue of Elective Modules: Informatics (advanced) > Blockchain-based Systems Engineering",
-   "Specialization in Technology > Specialization in Technology: Computer Engineering (major) > Blockchain-based Systems Engineering",
-   "Specialization in Technology > Specialization in Technology: Informatics (major) > Blockchain-based Systems Engineering"
-  ],
-  "offerings": [
-   {
-    "term": "SoSe 2026",
-    "termId": 206,
-    "courseId": 950879993,
-    "title": "Blockchain-based Systems Engineering (IN2359)",
-    "type": "VI",
-    "registration": "Registration expired",
-    "url": "https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/slc.tm.cp/student/courses/950879993?$ctx=lang=EN",
-    "registrationUrl": "https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/slc.tm.cp/student/courses/950879993/registration?$ctx=lang=EN",
-    "lecturers": [
-     {
-      "name": "Prof. Dr. rer. nat. Florian Matthes",
-      "email": "matthes@tum.de",
-      "card": "https://campus.tum.de/tumonline/pl/ui/$ctx/visitenkarte.dispatcher?pIdentityNrObf=4A92FF15657D7B00"
-     },
-     {
-      "name": "M.Sc. Jonas Gebele",
-      "email": "jonas.gebele@tum.de",
-      "card": "https://campus.tum.de/tumonline/pl/ui/$ctx/visitenkarte.dispatcher?pIdentityNrObf=969883DDF19191D8"
-     }
-    ]
-   }
-  ],
-  "node": 4325932,
-  "ects": null,
-  "handbook": "https://campus.tum.de/tumonline/WBMODHB.wbShowMHBReadOnly?pKnotenNr=4325932&pOrgNr=1"
- },
- {
   "code": "CIT3230000",
   "name": "Advanced Concepts of Programming Languages",
   "cats": [
@@ -2621,6 +2580,47 @@
   "node": 4327724,
   "ects": 6.0,
   "handbook": "https://campus.tum.de/tumonline/WBMODHB.wbShowMHBReadOnly?pKnotenNr=4327724&pOrgNr=1"
+ },
+ {
+  "code": "IN2359",
+  "name": "Blockchain-based Systems Engineering",
+  "cats": [
+   "tech_ce",
+   "tech_in"
+  ],
+  "paths": [
+   "Electives in Management and/or Technology > Catalogue of Elective Modules: Computer Engineering (advanced) > Blockchain-based Systems Engineering",
+   "Electives in Management and/or Technology > Catalogue of Elective Modules: Informatics (advanced) > Blockchain-based Systems Engineering",
+   "Specialization in Technology > Specialization in Technology: Computer Engineering (major) > Blockchain-based Systems Engineering",
+   "Specialization in Technology > Specialization in Technology: Informatics (major) > Blockchain-based Systems Engineering"
+  ],
+  "offerings": [
+   {
+    "term": "SoSe 2026",
+    "termId": 206,
+    "courseId": 950879993,
+    "title": "Blockchain-based Systems Engineering (IN2359)",
+    "type": "VI",
+    "registration": "Registration expired",
+    "url": "https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/slc.tm.cp/student/courses/950879993?$ctx=lang=EN",
+    "registrationUrl": "https://campus.tum.de/tumonline/ee/ui/ca2/app/desktop/#/slc.tm.cp/student/courses/950879993/registration?$ctx=lang=EN",
+    "lecturers": [
+     {
+      "name": "Prof. Dr. rer. nat. Florian Matthes",
+      "email": "matthes@tum.de",
+      "card": "https://campus.tum.de/tumonline/pl/ui/$ctx/visitenkarte.dispatcher?pIdentityNrObf=4A92FF15657D7B00"
+     },
+     {
+      "name": "M.Sc. Jonas Gebele",
+      "email": "jonas.gebele@tum.de",
+      "card": "https://campus.tum.de/tumonline/pl/ui/$ctx/visitenkarte.dispatcher?pIdentityNrObf=969883DDF19191D8"
+     }
+    ]
+   }
+  ],
+  "node": 4325932,
+  "ects": 6.0,
+  "handbook": "https://campus.tum.de/tumonline/WBMODHB.wbShowMHBReadOnly?pKnotenNr=4325932&pOrgNr=1"
  },
  {
   "code": "IN2406",

@@ -7,7 +7,7 @@ function semBar(items) {
     const e = i.ects ?? 0;
     const w = ((e || 2) / scale) * 100;
     const cls = `${i.ects == null ? "unknown" : i.area} ${i.base ? "" : "planned"}`;
-    return `<div class="seg ${cls}" style="flex:0 0 ${w}%" title="${esc(i.code)} · ${esc(i.name)} · ${e || "?"} ECTS">${esc(i.code)}</div>`;
+    return `<div class="seg ${cls}" style="flex:0 0 ${w}%" title="${esc(i.code)} · ${esc(i.name)} · ${e || "?"} ECTS">${e || "?"}</div>`;
   }).join("");
   return `<div class="sembar-wrap"><div class="target" style="left:${(TARGET() / scale) * 100}%"><span>${TARGET()} ECTS target</span></div>
     <div class="sembar">${segs}</div></div>
@@ -109,11 +109,11 @@ function viewPlanner() {
         <span class="sep"></span>${chip("ects", "all", "Any ECTS")}${chip("ects", "le5", "≤ 5")}${chip("ects", "6", "6")}${chip("ects", "ge8", "≥ 8")}
         <input class="search" placeholder="Search" data-q value="${esc(f.q)}">
       </div>
-      <table class="tbl"><thead><tr><th>Module</th><th>Area</th><th>Availability</th><th class="r">ECTS</th><th></th></tr></thead><tbody>
-      ${pick.map(m => `<tr><td><div class="name">${esc(m.name)}</div><div class="sub mono">${esc(m.code)}</div></td><td class="fg2">${AREA[areaOfMod(m)]}</td>
-        <td>${availTag(avail(m))}</td><td class="r num">${m.ects ?? "?"}</td>
+      <div class="tbl-wrap"><table class="tbl"><thead><tr><th>Module</th><th class="hide-sm">Area</th><th class="hide-sm">Availability</th><th class="r">ECTS</th><th></th></tr></thead><tbody>
+      ${pick.map(m => `<tr><td><div class="name">${esc(m.name)}</div><div class="sub mono">${esc(m.code)}</div><div class="show-sm" style="margin-top:4px">${availTag(avail(m))}</div></td><td class="fg2 hide-sm">${AREA[areaOfMod(m)]}</td>
+        <td class="hide-sm">${availTag(avail(m))}</td><td class="r num">${m.ects ?? "?"}</td>
         <td class="r"><button class="btn sm" aria-label="Add ${esc(m.name)}" data-add="${esc(m.code)}">${icon("plus").replace("<svg", '<svg style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.5"')}Add</button></td></tr>`).join("") || '<tr><td colspan="5" class="empty">No module matches these filters</td></tr>'}
-      </tbody></table></div>
+      </tbody></table></div></div>
   </div>`;
 }
 

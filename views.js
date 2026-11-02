@@ -56,7 +56,7 @@ function courseCard(c) {
       <div><div class="code">${esc(c.code)} · ${AREA[c.area]}${c.mandatory ? " · mandatory" : ""}</div><div class="name">${esc(c.name)}</div></div>
       <div class="num fg2 hide-sm">${c.ects ?? "?"} ECTS</div>
       <div class="mono fg2 hide-sm">${e ? "Exam " + dmy(e.date).slice(0, 5) : "-"}</div>
-      <div class="hide-sm">${g === "regopen" ? `<span class="tag neg">Register by ${dmy(e.regTo).slice(0, 5)}</span>` : g === "regsoon" ? `<span class="tag warn">Opens ${dmy(e.regFrom).slice(0, 5)}</span>` : g === "dropped" ? '<span class="tag">Dropped</span>' : g === "noexam" ? '<span class="tag acc">No date yet</span>' : '<span class="tag pos">Registered</span>'}</div>
+      <div>${g === "regopen" ? `<span class="tag neg">Register by ${dmy(e.regTo).slice(0, 5)}</span>` : g === "regsoon" ? `<span class="tag warn">Opens ${dmy(e.regFrom).slice(0, 5)}</span>` : g === "dropped" ? '<span class="tag">Dropped</span>' : g === "noexam" ? '<span class="tag acc">No date yet</span>' : '<span class="tag pos">Registered</span>'}</div>
       ${icon("chev", "chev")}</summary>
     <div class="body">
       <div><div class="sect-lbl">Exam</div><dl class="kv">
@@ -83,7 +83,7 @@ function viewCourses() {
   return `<div class="page-head"><div><h1>My courses</h1><p>Registered courses grouped by what still has to happen</p></div></div>
   <div class="toolbar">${chip("all", "All")}${chip("mgmt", "Management")}${chip("tech", "Technology")}</div>
   ${Object.entries(CGROUPS).map(([k, [t]]) => { const list = cs.filter(c => courseGroup(c) === k); return list.length ?
-    `<div class="group-h">${t} <span class="mono">${list.length} · ${list.reduce((s, c) => s + (c.ects || 0), 0)} ECTS</span></div>${list.map(courseCard).join("")}` : ""; }).join("")}`;
+    `<div class="group-h">${t} <span class="mono">${list.length} · ${k === "dropped" ? "not counted" : list.reduce((s, c) => s + (c.ects || 0), 0) + " ECTS"}</span></div>${list.map(courseCard).join("")}` : ""; }).join("")}`;
 }
 function bindCourses(root) { root.querySelectorAll("[data-ca]").forEach(b => b.onclick = () => { st.f.courses.area = b.dataset.ca; render(); }); }
 
@@ -115,8 +115,8 @@ function viewCalendar() {
     ${[["7", "7 days"], ["30", "30 days"], ["90", "90 days"], ["all", "Semester"]].map(([v, t]) => `<button class="chip ${f.range === v ? "on" : ""}" data-range="${v}">${t}</button>`).join("")}
     <span class="sep"></span>${kchip("lecture", "Lectures")}${kchip("exam", "Exams")}${kchip("deadline", "Deadlines")}${kchip("event", "Sessions")}
     <span class="sep"></span><select class="search" style="min-width:180px" data-code><option value="all">All courses</option>${codes.map(c => `<option ${f.code === c ? "selected" : ""}>${esc(c)}</option>`).join("")}</select></div>
-  ${days.map(d => `<div class="cal-day"><div class="dl"><b>${dayName(d)}</b><span>${daysTo(d) === 0 ? "today" : `in ${daysTo(d)} days`}</span></div><div>
-    ${list.filter(e => e.date === d).map(e => `<div class="ev"><span class="time">${esc(e.time)}</span><span class="kind ${e.kind}">${e.kind}</span>
+  ${days.map(d => `<div class="cal-day"><div class="dl"><b>${dayName(d)}</b><span>${daysTo(d) === 0 ? "today" : daysTo(d) === 1 ? "tomorrow" : `in ${daysTo(d)} days`}</span></div><div>
+    ${list.filter(e => e.date === d).map(e => `<div class="ev"><span class="time">${esc(e.time)}</span><span class="kind ${e.kind}">${e.kind === "event" ? "session" : e.kind}</span>
       <span>${e.url ? `<a href="${e.url}" target="_blank" rel="noopener">${esc(e.title)}</a>` : esc(e.title)}${e.where ? ` <span class="where">· ${esc(e.where)}</span>` : ""}</span></div>`).join("")}</div></div>`).join("") || '<div class="empty">Nothing in this range</div>'}</div>`;
 }
 function bindCalendar(root) {
@@ -144,8 +144,10 @@ function viewCatalogue() {
   const f = st.f.cat ||= { area: "all", av: "all", ects: "all", q: "" };
   const inPlan = new Set([...semesterItems("now"), ...semesterItems("next")].map(i => i.code));
   const base = S.mods.filter(m => f.area === "all" || areaOfMod(m) === f.area);
+  const order = { open: 0, noreg: 1, closed: 2, summer: 3 };
   const list = base.filter(m => (f.av === "all" || avail(m) === f.av) && (f.ects === "all" || (f.ects === "le5" ? m.ects <= 5 : f.ects === "6" ? m.ects === 6 : m.ects >= 8))
-    && (!f.q || (m.code + " " + m.name + " " + m.offerings.map(o => o.lecturers.map(l => l.name).join(" ")).join(" ")).toLowerCase().includes(f.q)));
+    && (!f.q || (m.code + " " + m.name + " " + m.offerings.map(o => o.lecturers.map(l => l.name).join(" ")).join(" ")).toLowerCase().includes(f.q)))
+    .sort((x, y) => areaOfMod(x).localeCompare(areaOfMod(y)) || order[avail(x)] - order[avail(y)] || x.name.localeCompare(y.name));
   const chip = (k, v, t, c) => `<button class="chip ${f[k] === v ? "on" : ""}" data-cf="${k}" data-v="${v}">${t}${c != null ? ` <span class="c">${c}</span>` : ""}</button>`;
   return `<div class="page-head"><div><h1>Catalogue</h1><p>Management: Innovation & Entrepreneurship. Technology: Computer Engineering + Informatics.</p></div></div>
   <div class="card"><div class="toolbar">
@@ -153,15 +155,16 @@ function viewCatalogue() {
     <span class="sep"></span>${chip("av", "all", "Any availability")}${Object.entries(AVAIL).map(([k, [t]]) => chip("av", k, t, base.filter(m => avail(m) === k).length)).join("")}
     <span class="sep"></span>${chip("ects", "all", "Any ECTS")}${chip("ects", "le5", "≤ 5")}${chip("ects", "6", "6")}${chip("ects", "ge8", "≥ 8")}
     <input class="search" placeholder="Search code, title, lecturer" data-cq value="${esc(f.q)}"></div>
-  <table class="tbl"><thead><tr><th>Module</th><th>Availability</th><th class="r">ECTS</th><th>Lecturers</th><th>Links</th><th></th></tr></thead><tbody>
+  <div class="tbl-wrap"><table class="tbl"><thead><tr><th>Module</th><th class="hide-sm">Availability</th><th class="r">ECTS</th><th class="hide-sm">Lecturers</th><th></th></tr></thead><tbody>
   ${list.map(m => { const offs = m.offerings.filter(o => o.termId === (avail(m) === "summer" ? 206 : 207)); const ls = new Map(); offs.forEach(o => o.lecturers.forEach(l => l.name && ls.set(l.name, l)));
     return `<tr><td><div class="name">${esc(m.name)}</div><div class="sub"><span class="mono">${esc(m.code)}</span> · ${AREA[areaOfMod(m)]}</div>
-      ${offs.map(o => `<div class="sub"><a href="${o.url}" target="_blank" rel="noopener">${esc(o.type)} · ${esc(o.term)}</a> · ${esc(o.registration)}</div>`).join("")}</td>
-      <td>${availTag(avail(m))}</td><td class="r num">${m.ects ?? "?"}</td>
-      <td class="people">${people([...ls.values()].slice(0, 3))}${ls.size > 3 ? `<div class="muted">+${ls.size - 3} more</div>` : ""}</td>
-      <td><div class="linkset"><a href="${m.handbook}" target="_blank" rel="noopener">Handbook</a><a href="${examUrl(m.code)}" target="_blank" rel="noopener">Exams</a></div></td>
-      <td class="r">${inPlan.has(m.code) ? '<span class="tag pos">In plan</span>' : `<button class="btn sm" aria-label="Add ${esc(m.name)} to plan" data-cadd="${esc(m.code)}">Add to plan</button>`}</td></tr>`; }).join("") || '<tr><td colspan="6" class="empty">No module matches</td></tr>'}
-  </tbody></table></div>`;
+      <div class="show-sm" style="margin-top:4px">${availTag(avail(m))}</div>
+      ${offs.map(o => `<div class="sub"><a href="${o.url}" target="_blank" rel="noopener">${esc(o.type)} · ${esc(o.term)}</a> · ${esc(o.registration)}</div>`).join("")}
+      <div class="sub linkset" style="margin-top:4px"><a href="${m.handbook}" target="_blank" rel="noopener">Module handbook</a><a href="${examUrl(m.code)}" target="_blank" rel="noopener">Exam dates</a></div></td>
+      <td class="hide-sm">${availTag(avail(m))}</td><td class="r num">${m.ects ?? "?"}</td>
+      <td class="people hide-sm">${people([...ls.values()].slice(0, 3))}${ls.size > 3 ? `<div class="muted">+${ls.size - 3} more</div>` : ""}</td>
+      <td class="r">${inPlan.has(m.code) ? '<span class="tag pos">In plan</span>' : `<button class="btn sm" aria-label="Add ${esc(m.name)} to plan" data-cadd="${esc(m.code)}">Add<span class="hide-sm">&nbsp;to plan</span></button>`}</td></tr>`; }).join("") || '<tr><td colspan="5" class="empty">No module matches</td></tr>'}
+  </tbody></table></div></div>`;
 }
 function bindCatalogue(root) {
   root.querySelectorAll("[data-cf]").forEach(b => b.onclick = () => { st.f.cat[b.dataset.cf] = b.dataset.v; render(); });
