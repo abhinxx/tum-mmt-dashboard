@@ -98,8 +98,8 @@ function viewPlanner() {
         <span class="dot" style="background:var(--${i.area})"></span>
         <span class="nm">${esc(i.name)}<br><span class="mono">${esc(i.code)} · ${AREA[i.area]}${i.base ? " · taking" : " · planned"}${i.avail ? " · " + AVAIL[i.avail][0].toLowerCase() : ""}</span></span>
         <span class="num fg2">${i.ects ?? "?"}</span>
-        ${i.base ? `<input type="checkbox" title="Count this course" data-off="${esc(i.code)}" ${i.on ? "checked" : ""} style="accent-color:var(--acc)">`
-                 : `<button class="iconbtn" title="Remove" data-rm="${esc(i.code)}">${icon("x")}</button>`}</div>`).join("") : '<div class="empty">Nothing planned yet. Add modules from the list.</div>'}</div>
+        ${i.base ? `<input type="checkbox" title="Count this course" aria-label="Count ${esc(i.code)}" data-off="${esc(i.code)}" ${i.on ? "checked" : ""} style="accent-color:var(--acc)">`
+                 : `<button class="iconbtn" title="Remove" aria-label="Remove ${esc(i.code)}" data-rm="${esc(i.code)}">${icon("x")}</button>`}</div>`).join("") : '<div class="empty">Nothing planned yet. Add modules from the list.</div>'}</div>
       <h2 style="margin-top:20px">Degree after both semesters</h2>${degreeRows()}
     </div></div>
     <div class="card"><h2>Add electives <span class="muted">· ${pick.length} modules</span></h2>
@@ -112,7 +112,7 @@ function viewPlanner() {
       <table class="tbl"><thead><tr><th>Module</th><th>Area</th><th>Availability</th><th class="r">ECTS</th><th></th></tr></thead><tbody>
       ${pick.map(m => `<tr><td><div class="name">${esc(m.name)}</div><div class="sub mono">${esc(m.code)}</div></td><td class="fg2">${AREA[areaOfMod(m)]}</td>
         <td>${availTag(avail(m))}</td><td class="r num">${m.ects ?? "?"}</td>
-        <td class="r"><button class="btn sm" data-add="${esc(m.code)}">${icon("plus").replace("<svg", '<svg style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.5"')}Add</button></td></tr>`).join("") || '<tr><td colspan="5" class="empty">No module matches these filters</td></tr>'}
+        <td class="r"><button class="btn sm" aria-label="Add ${esc(m.name)}" data-add="${esc(m.code)}">${icon("plus").replace("<svg", '<svg style="width:14px;height:14px;stroke:currentColor;fill:none;stroke-width:1.5"')}Add</button></td></tr>`).join("") || '<tr><td colspan="5" class="empty">No module matches these filters</td></tr>'}
       </tbody></table></div>
   </div>`;
 }

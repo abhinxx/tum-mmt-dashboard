@@ -160,7 +160,7 @@ function viewCatalogue() {
       <td>${availTag(avail(m))}</td><td class="r num">${m.ects ?? "?"}</td>
       <td class="people">${people([...ls.values()].slice(0, 3))}${ls.size > 3 ? `<div class="muted">+${ls.size - 3} more</div>` : ""}</td>
       <td><div class="linkset"><a href="${m.handbook}" target="_blank" rel="noopener">Handbook</a><a href="${examUrl(m.code)}" target="_blank" rel="noopener">Exams</a></div></td>
-      <td class="r">${inPlan.has(m.code) ? '<span class="tag pos">In plan</span>' : `<button class="btn sm" data-cadd="${esc(m.code)}">Add to plan</button>`}</td></tr>`; }).join("") || '<tr><td colspan="6" class="empty">No module matches</td></tr>'}
+      <td class="r">${inPlan.has(m.code) ? '<span class="tag pos">In plan</span>' : `<button class="btn sm" aria-label="Add ${esc(m.name)} to plan" data-cadd="${esc(m.code)}">Add to plan</button>`}</td></tr>`; }).join("") || '<tr><td colspan="6" class="empty">No module matches</td></tr>'}
   </tbody></table></div>`;
 }
 function bindCatalogue(root) {
@@ -201,9 +201,11 @@ function render() {
   $("#nav").innerHTML = Object.entries(ROUTES).map(([k, [t, ic]]) => `<a href="#${k}" class="${k === key ? "on" : ""}">${icon(ic)}${t}${counts[k] != null ? `<span class="count">${counts[k]}</span>` : ""}</a>`).join("");
   const v = $("#view");
   const scroll = key === lastRoute ? window.scrollY : 0;
+  const inner = key === lastRoute ? [...v.querySelectorAll(".sticky")].map(e => e.scrollTop) : [];
   v.innerHTML = `<div class="${key === lastRoute ? "" : "view"}">${ROUTES[key][2]()}</div>`;
   if (ROUTES[key][3]) ROUTES[key][3](v);
   window.scrollTo(0, scroll);
+  v.querySelectorAll(".sticky").forEach((e, i) => { if (inner[i]) e.scrollTop = inner[i]; });
   lastRoute = key;
 }
 window.addEventListener("hashchange", render);
